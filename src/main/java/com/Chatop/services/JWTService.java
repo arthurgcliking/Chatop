@@ -1,4 +1,4 @@
-package com.chatop.Chatop.services;
+package com.Chatop.services;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

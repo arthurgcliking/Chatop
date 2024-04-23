@@ -1,4 +1,4 @@
-package com.chatop.Chatop.configuration;
+package com.Chatop.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
