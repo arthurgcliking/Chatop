@@ -1,32 +1,64 @@
 package com.Chatop.services;
 
 import java.util.Optional;
-import com.Chatop.model.User;
+import com.Chatop.exception.UserNotFoundException;
+import com.Chatop.model.DAO.UserDAO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
 import com.Chatop.repository.UserRepository;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Data
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public Optional<User> getUser(final Long id) {
-        return userRepository.findById(id);
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public Iterable<User> getUsers() {
+    public Iterable<UserDAO> getUsers() {
         return userRepository.findAll();
     }
 
-    public void deleteUser(final Long id) {
+    public void deleteUser(final Integer id) {
         userRepository.deleteById(id);
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public UserDAO saveUser(UserDAO user) {
+        UserDAO savedUser = userRepository.save(user);
+        return savedUser;
+    }
+
+    public UserDAO getUserById(final Integer id) {
+        Optional<UserDAO> user = userRepository.findById(id);
+        return user.orElse(null);
+    }
+
+    public UserDAO getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails)principal).getUsername();
+            UserDAO user = userRepository.findByName(username);
+
+            if(user == null){
+                throw new UserNotFoundException("There's no authenticated user");
+            }
+
+            return user;
+        }
+
+        throw new UserNotFoundException("There's no authenticated user");
+    }
+
+    public Optional<UserDAO> findById(Integer id) {
+        return  userRepository.findById(id);
     }
 }
