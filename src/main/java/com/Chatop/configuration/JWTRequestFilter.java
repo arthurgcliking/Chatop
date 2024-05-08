@@ -15,19 +15,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.Chatop.services.JWTUserDetailsService;
 
+// This class is used to filter incoming HTTP requests and handle JWT authentication
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
+
+    // These services are used to handle JWT tokens and user details
     @Autowired
     private JWTUserDetailsService jwtUserDetailsService;
     @Autowired
     private JWTTokenUtil jwtTokenUtil;
 
+    // This method checks if the request should be filtered or not
+    // In this case, it skips filtering for login and register requests
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.startsWith("/api/auth/login") || path.startsWith("/api/auth/register");
     }
 
+    // This method is called for each request, it checks the Authorization header for a valid JWT token
+    // If a valid token is found, it sets the authentication in the security context
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
@@ -46,6 +53,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             logger.warn("JWT Token dont begin with Bearer String");
         }
 
+        // If a username is found and the security context is empty, it loads the user details and validates the token
+        // If the token is valid, it sets the authentication in the security context
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             CustomUserDetails userDetails = this.jwtUserDetailsService.loadUserByUserEmail(username);
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {

@@ -12,23 +12,28 @@ import java.util.List;
 
 @Service
 public class RentalService {
+    // Injects RentalRepository and UserService into the service
     private final RentalRepository rentalRepository;
     private final UserService userService;
 
+    // Constructor to initialize the rentalRepository and userService fields
     @Autowired
     public RentalService(RentalRepository rentalRepository, UserService userService) {
         this.rentalRepository = rentalRepository;
         this.userService = userService;
     }
 
+    // Returns a list of all rentals in the database
     public List<RentalDAO> findAll() {
         return rentalRepository.findAll();
     }
 
+    // Returns a rental with the specified ID, or throws a RessourceNotFoundException if it doesn't exist
     public RentalDAO getRentalById(Long id) {
         return rentalRepository.findById(id).orElseThrow(() -> new RessourceNotFoundException("Rental not found with id: " + id));
     }
 
+    // Creates a new rental with the specified details and saves it to the database
     public void createRental(RentalDTO rentalDTO) {
         RentalDAO newRental = new RentalDAO();
         UserDAO owner = userService.getCurrentUser();
@@ -41,6 +46,7 @@ public class RentalService {
         rentalRepository.save(newRental);
     }
 
+    // Updates an existing rental with the specified ID and details, and returns the updated rental details
     public RentalDTO updateRental(Long rentalId, RentalDTO rentalDetails) {
         RentalDAO rental = rentalRepository.findById(rentalId)
                 .orElseThrow(() -> new RessourceNotFoundException("Rental not found with id: " + rentalId));
@@ -53,6 +59,7 @@ public class RentalService {
         return rentalDetails;
     }
 
+    // Updates an existing rental with the specified details
     public void updateRental(RentalDAO existingRental, RentalDTO rentalDTO) {
         if (rentalDTO.getName() != null) existingRental.setName(rentalDTO.getName());
         existingRental.setSurface(rentalDTO.getSurface());

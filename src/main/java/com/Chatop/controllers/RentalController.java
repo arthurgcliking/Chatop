@@ -1,5 +1,6 @@
 package com.Chatop.controllers;
 
+import io.swagger.annotations.ApiOperation;
 import com.Chatop.model.DAO.RentalDAO;
 import com.Chatop.model.DTO.RentalDTO;
 import com.Chatop.services.RentalService;
@@ -14,20 +15,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// This class is used to handle rental-related requests
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalController {
 
-    private final RentalService rentalService;
-    private final StorageService storageService;
+    // These fields are used to inject the RentalService and StorageService objects
+    @Autowired
+    private RentalService rentalService;
 
     @Autowired
+    private StorageService storageService;
+
+    // This constructor is used to initialize the RentalService and StorageService objects
     public RentalController(RentalService rentalService, StorageService storageService) {
         this.rentalService = rentalService;
         this.storageService = storageService;
     }
 
+    // This method is used to get all rentals
+    // It returns a list of RentalDTO objects
     @GetMapping
+    @ApiOperation(value = "Get all rentals")
     public ResponseEntity<RentalResponse> getAllRentals() {
         List<RentalDAO> rentals = rentalService.findAll();
 
@@ -41,7 +50,10 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+    // This method is used to get a specific rental by ID
+    // It returns a RentalDTO object
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get a specific rental")
     public ResponseEntity<RentalDTO> getRentalById(@PathVariable(value = "id") Long rentalId) {
         RentalDAO daoRental = rentalService.getRentalById(rentalId);
         if (daoRental == null) {
@@ -51,6 +63,7 @@ public class RentalController {
         return ResponseEntity.ok(rentalDTO);
     }
 
+    // This method is used to convert a RentalDAO object to a RentalDTO object
     private RentalDTO convertToDto(RentalDAO daoRental) {
         RentalDTO rentalDTO = new RentalDTO();
         rentalDTO.setId(daoRental.getId());
@@ -65,7 +78,10 @@ public class RentalController {
         return rentalDTO;
     }
 
+    // This method is used to save a new rental
+    // It takes a MultipartFile object (for the picture) and a RentalDTO object (for the rental details) as input, and saves the rental using the RentalService
     @PostMapping
+    @ApiOperation(value = "Save a new rental")
     public ResponseEntity<?> createRental(@RequestPart("picture") MultipartFile picture, @ModelAttribute RentalDTO rentalDTO) throws IOException {
         String picturePath = storageService.store(picture);
         try {
@@ -78,7 +94,10 @@ public class RentalController {
         }
     }
 
+    // This method is used to update a specific rental by ID
+    // It takes a MultipartFile object (for the picture) and a RentalDTO object (for the rental details) as input, and updates the rental using the RentalService
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update a specific rental")
     public ResponseEntity<?> updateRental(@PathVariable Long id, @RequestPart(value = "picture", required = false) MultipartFile picture, @ModelAttribute RentalDTO rentalDTO) throws IOException {
         RentalDAO existingRental = rentalService.getRentalById(id);
         if (existingRental == null) {
