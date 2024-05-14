@@ -55,26 +55,26 @@ public class RentalController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Get a specific rental")
     public ResponseEntity<RentalDTO> getRentalById(@PathVariable(value = "id") Long rentalId) {
-        RentalDAO daoRental = rentalService.getRentalById(rentalId);
-        if (daoRental == null) {
+        RentalDAO rentalDao = rentalService.getRentalById(rentalId);
+        if (rentalDao == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        RentalDTO rentalDTO = convertToDto(daoRental);
+        RentalDTO rentalDTO = convertToDto(rentalDao);
         return ResponseEntity.ok(rentalDTO);
     }
 
     // This method is used to convert a RentalDAO object to a RentalDTO object
-    private RentalDTO convertToDto(RentalDAO daoRental) {
+    private RentalDTO convertToDto(RentalDAO rentalDao) {
         RentalDTO rentalDTO = new RentalDTO();
-        rentalDTO.setId(daoRental.getId());
-        rentalDTO.setName(daoRental.getName());
-        rentalDTO.setSurface(daoRental.getSurface());
-        rentalDTO.setPrice(daoRental.getPrice());
-        rentalDTO.setPicturePath(daoRental.getPicturePath());
-        rentalDTO.setDescription(daoRental.getDescription());
-        rentalDTO.setCreated_at(daoRental.getCreatedAt());
-        rentalDTO.setUpdated_at(daoRental.getUpdatedAt());
-        rentalDTO.setOwner_id(daoRental.getOwner().getId());
+        rentalDTO.setId(rentalDao.getId());
+        rentalDTO.setName(rentalDao.getName());
+        rentalDTO.setSurface(rentalDao.getSurface());
+        rentalDTO.setPrice(rentalDao.getPrice());
+        rentalDTO.setPicturePath(rentalDao.getPicturePath());
+        rentalDTO.setDescription(rentalDao.getDescription());
+        rentalDTO.setCreated_at(rentalDao.getCreatedAt());
+        rentalDTO.setUpdated_at(rentalDao.getUpdatedAt());
+        rentalDTO.setOwner_id(rentalDao.getOwner().getId());
         return rentalDTO;
     }
 
