@@ -42,13 +42,13 @@ public class UserController {
     }
 
     // This method is used to convert a UserDAO object to a UserDTO object
-    private UserDTO convertToDto(UserDAO daoUser) {
+    private UserDTO convertToDto(UserDAO userDao) {
         UserDTO userDTO = new UserDTO(
-                daoUser.getId(),
-                daoUser.getName(),
-                daoUser.getEmail(),
-                daoUser.getCreatedAt(),
-                daoUser.getUpdatedAt());
+                userDao.getId(),
+                userDao.getName(),
+                userDao.getEmail(),
+                userDao.getCreatedAt(),
+                userDao.getUpdatedAt());
         return userDTO;
     }
 }

@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
 import java.util.Date;
+import io.swagger.annotations.ApiModel;
 
 // This class is used to represent a user in the application
+@ApiModel(description = "Represents a user in the system")
 @Getter
 @Data
 public class UserDTO {
