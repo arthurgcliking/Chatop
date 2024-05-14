@@ -1,4 +1,4 @@
-**Projet Chatop - REDAME**
+**Projet Chatop - README**
 
 **Prérequis**
 
