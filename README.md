@@ -9,7 +9,7 @@
 
 **Installation du projet**
 
-1. Téléchargez le projet depuis le repository GitHub suivant : <https://github.com/votre-nom-utilisateur/chatop.git>
+1. Téléchargez le projet depuis le repository GitHub suivant : <https://github.com/arthurgcliking/Chatop.git>
 2. Décompressez le fichier ZIP téléchargé
 3. Ouvrez le projet dans votre éditeur de code préféré
 4. Ouvrez le fichier `application.properties` situé dans le répertoire `src/main/resources`
@@ -21,16 +21,23 @@ spring.datasource.password=votre-mot-de-passe
 spring.jpa.hibernate.ddl-auto=update
 ```
 6. Enregistrez le fichier `application.properties`
-7. Ouvrez un terminal et naviguez jusqu'au répertoire racine du projet
-8. Exécutez la commande suivante pour installer les dépendances du projet :
+7. Ouvrez un terminal et naviguez jusqu'au répertoire racine du projet Angular
+8. Exécutez la commande suivante pour lancer le projet côté Angular :
+```
+ng serve
+```
+9. Le projet Angular est maintenant accessible à l'adresse suivante : http://localhost:4200
+10. Ouvrez un terminal et naviguez jusqu'au répertoire racine du projet Spring Chatop
+11. Exécutez la commande suivante pour installer les dépendances du projet :
 ```
 mvn clean install
 ```
-9. Une fois l'installation terminée, exécutez la commande suivante pour lancer le projet :
+12. Une fois l'installation terminée, exécutez la commande suivante pour lancer le projet :
 ```
 java -jar target/Chatop-0.0.1-SNAPSHOT.jar
 ```
-10. Le projet est maintenant accessible à l'adresse suivante : http://localhost:3001
+13. Le projet est maintenant accessible à l'adresse suivante : http://localhost:3001
+14. Les deux serveurs étant lancés, vous pouvez désormais utiliser le site Angular avec l'API Spring
 
 
 
