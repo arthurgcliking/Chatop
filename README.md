@@ -40,8 +40,7 @@ mvn clean install
 ```
 java -jar target/Chatop-0.0.1-SNAPSHOT.jar
 ```
-14. Le projet est maintenant accessible à l'adresse suivante : http://localhost:3001
-15. Les deux serveurs étant lancés, vous pouvez désormais utiliser le site Angular avec l'API Spring
+14. Les deux serveurs étant lancés, vous pouvez désormais utiliser le site Angular avec l'API Spring
 
 
 
