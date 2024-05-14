@@ -15,7 +15,7 @@
 4. Ouvrez le fichier `application.properties` situé dans le répertoire `src/main/resources`
 5. Configurez les paramètres de connexion à la base de données MySQL en renseignant les valeurs correspondant à votre BDD :
 ```vbnet
-spring.datasource.url=jdbc:postgresql://localhost:3306/chatop
+spring.datasource.url=jdbc:mysql://localhost:3306/chatop
 spring.datasource.username=votre-nom-utilisateur
 spring.datasource.password=votre-mot-de-passe
 spring.jpa.hibernate.ddl-auto=update
