@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
+
 import java.util.Date;
 
 // This class is used to represent a rental in the application
@@ -42,5 +43,4 @@ public class RentalDTO {
     // This field is used to represent the last update date of the rental
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private Date updated_at;
-
 }

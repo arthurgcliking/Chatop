@@ -16,21 +16,21 @@ import io.swagger.annotations.ApiOperation;
 import com.Chatop.model.JWTRequest;
 import com.Chatop.model.JWTResponse;
 import com.Chatop.model.DAO.UserDAO;
-import com.Chatop.services.CustomUserDetails;
-import com.Chatop.services.JWTUserDetailsService;
-import com.Chatop.configuration.JWTTokenUtil;
+import com.Chatop.services.HandleUser;
+import com.Chatop.services.JWTUserService;
+import com.Chatop.configuration.JWTToken;
 
 // This class is used to handle authentication and registration requests
 @RestController
 @CrossOrigin
 public class JWTController {
 
-    // These fields are used to inject the JWTUserDetailsService, JWTTokenUtil, and AuthenticationManager objects
+    // These fields are used to inject the JWTUserService, JWTToken, and AuthenticationManager objects
     @Autowired
-    private JWTUserDetailsService userDetailsService;
+    private JWTUserService userService;
 
     @Autowired
-    private JWTTokenUtil jwtTokenUtil;
+    private JWTToken jwtToken;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -40,9 +40,9 @@ public class JWTController {
     @PostMapping("/api/auth/register")
     @ApiOperation(value = "Register a new user")
     public ResponseEntity<?> saveUser(@RequestBody UserDAO user) throws Exception {
-        userDetailsService.save(user);
-        final CustomUserDetails userDetails = userDetailsService.loadUserByUserEmail(user.getEmail());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        userService.save(user);
+        final HandleUser userDetails = userService.loadUserByUserEmail(user.getEmail());
+        final String token = jwtToken.generateToken(userDetails);
         return ResponseEntity.ok(new JWTResponse(token));
     }
 
@@ -52,8 +52,8 @@ public class JWTController {
     @ApiOperation(value = "User login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JWTRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-        final CustomUserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final HandleUser userDetails = userService.loadUserByUsername(authenticationRequest.getEmail());
+        final String token = jwtToken.generateToken(userDetails);
         return ResponseEntity.ok(new JWTResponse(token));
     }
 

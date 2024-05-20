@@ -21,7 +21,7 @@ import com.Chatop.services.UserService;
 @Api("API for CRUD operations on users")
 @RestController
 @RequestMapping(path="/api")
-public class MainController {
+public class BaseController {
 
     // These fields are used to inject the UserService and UserRepository objects
     @Autowired
@@ -31,7 +31,7 @@ public class MainController {
     private UserRepository userRepository;
 
     // This constructor is used to initialize the UserService and UserRepository objects
-    public MainController(UserService userService, UserRepository userRepository) {
+    public BaseController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }

@@ -6,14 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.Chatop.services.CustomUserDetails;
+import com.Chatop.services.HandleUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.Chatop.services.JWTUserDetailsService;
+import com.Chatop.services.JWTUserService;
 
 // This class is used to filter incoming HTTP requests and handle JWT authentication
 @Component
@@ -21,9 +21,9 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     // These services are used to handle JWT tokens and user details
     @Autowired
-    private JWTUserDetailsService jwtUserDetailsService;
+    private JWTUserService jwtUserService;
     @Autowired
-    private JWTTokenUtil jwtTokenUtil;
+    private JWTToken jwtTokenn;
 
     // This method checks if the request should be filtered or not
     // In this case, it skips filtering for login and register requests
@@ -44,8 +44,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
-                DecodedJWT jwt = jwtTokenUtil.verifyToken(jwtToken);
-                username = jwtTokenUtil.getUserEmailFromToken(jwtToken);
+                DecodedJWT jwt = jwtTokenn.verifyToken(jwtToken);
+                username = jwtTokenn.getUserEmailFromToken(jwtToken);
             } catch (Exception e) {
                 System.out.println("Unable to get JWT Token");
             }
@@ -56,8 +56,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         // If a username is found and the security context is empty, it loads the user details and validates the token
         // If the token is valid, it sets the authentication in the security context
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            CustomUserDetails userDetails = this.jwtUserDetailsService.loadUserByUserEmail(username);
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            HandleUser userDetails = this.jwtUserService.loadUserByUserEmail(username);
+            if (jwtTokenn.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken

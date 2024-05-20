@@ -1,7 +1,6 @@
 package com.Chatop.services;
 
 import java.util.Optional;
-import com.Chatop.exception.UserNotFoundException;
 import com.Chatop.model.DAO.UserDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +54,10 @@ public class UserService {
             String username = ((UserDetails)principal).getUsername();
             UserDAO user = userRepository.findByName(username);
 
-            if(user == null){
-                throw new UserNotFoundException("There's no authenticated user");
-            }
-
             return user;
         }
 
-        throw new UserNotFoundException("There's no authenticated user");
+        return null;
     }
 
     // Returns the UserDAO object with the specified ID from the database, wrapped in an Optional

@@ -9,13 +9,13 @@ import java.util.Collections;
 import java.util.Collection;
 
 // This class is used to represent a custom implementation of the UserDetails interface, which is used by Spring Security to represent a user in the application
-public class CustomUserDetails implements UserDetails {
+public class HandleUser implements UserDetails {
 
     // This field is used to store the UserDAO object that represents the user in the database
     private final UserDAO user;
 
-    // This constructor is used to initialize a new CustomUserDetails object with the specified UserDAO object
-    public CustomUserDetails(UserDAO user) {
+    // This constructor is used to initialize a new HandleUser object with the specified UserDAO object
+    public HandleUser(UserDAO user) {
         this.user = user;
     }
 
