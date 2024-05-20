@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 
-import com.Chatop.model.JWTRequest;
-import com.Chatop.model.JWTResponse;
+import com.Chatop.configuration.JWT.JWTToken;
 import com.Chatop.model.DAO.UserDAO;
+import com.Chatop.model.JWT.JWTRequest;
+import com.Chatop.model.JWT.JWTResponse;
 import com.Chatop.services.HandleUser;
 import com.Chatop.services.JWTUserService;
-import com.Chatop.configuration.JWTToken;
 
 // This class is used to handle authentication and registration requests
 @RestController

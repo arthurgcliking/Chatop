@@ -1,4 +1,4 @@
-package com.Chatop.configuration;
+package com.Chatop.configuration.JWT;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class JWTToken implements Serializable {
     // This constant defines the validity of the JWT token in milliseconds
     public static final long JWT_TOKEN_VALIDITY = 5000;
 
-    // This field is used to sign the JWT tokens, it's value is read from the application.properties or file
+    // This field is used to sign the JWT tokens, it's value is read from the application.properties file
     @Value("${jwt.secret}")
     private String secret;
 

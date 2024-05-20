@@ -1,4 +1,4 @@
-package com.Chatop.configuration;
+package com.Chatop.configuration.JWT;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;

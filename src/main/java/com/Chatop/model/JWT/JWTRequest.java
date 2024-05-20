@@ -1,4 +1,4 @@
-package com.Chatop.model;
+package com.Chatop.model.JWT;
 
 import java.io.Serializable;
 

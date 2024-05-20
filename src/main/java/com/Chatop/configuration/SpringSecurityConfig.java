@@ -13,9 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.Chatop.configuration.JWTEntryPoint;
+import com.Chatop.configuration.JWT.JWTEntryPoint;
+import com.Chatop.configuration.JWT.JWTRequestFilter;
 import com.Chatop.services.JWTUserService;
-import com.Chatop.configuration.JWTRequestFilter;
 
 // This class is used to configure Spring Security for the application
 @Configuration
