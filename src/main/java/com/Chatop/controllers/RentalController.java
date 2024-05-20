@@ -21,13 +21,11 @@ import java.util.stream.Collectors;
 public class RentalController {
 
     // These fields are used to inject the RentalService and StorageService objects
-    @Autowired
-    private RentalService rentalService;
-
-    @Autowired
-    private StorageService storageService;
+    private final RentalService rentalService;
+    private final StorageService storageService;
 
     // This constructor is used to initialize the RentalService and StorageService objects
+    @Autowired
     public RentalController(RentalService rentalService, StorageService storageService) {
         this.rentalService = rentalService;
         this.storageService = storageService;
@@ -38,15 +36,11 @@ public class RentalController {
     @GetMapping
     @ApiOperation(value = "Get all rentals")
     public ResponseEntity<RentalResponse> getAllRentals() {
-        List<RentalDAO> rentals = rentalService.findAll();
-
-        List<RentalDTO> rentalDTOs = rentals.stream()
+        List<RentalDTO> rentalDTOs = rentalService.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-
         RentalResponse response = new RentalResponse();
         response.setRentals(rentalDTOs);
-
         return ResponseEntity.ok(response);
     }
 
@@ -59,8 +53,7 @@ public class RentalController {
         if (rentalDao == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        RentalDTO rentalDTO = convertToDto(rentalDao);
-        return ResponseEntity.ok(rentalDTO);
+        return ResponseEntity.ok(convertToDto(rentalDao));
     }
 
     // This method is used to convert a RentalDAO object to a RentalDTO object
@@ -83,9 +76,8 @@ public class RentalController {
     @PostMapping
     @ApiOperation(value = "Save a new rental")
     public ResponseEntity<?> createRental(@RequestPart("picture") MultipartFile picture, @ModelAttribute RentalDTO rentalDTO) throws IOException {
-        String picturePath = storageService.store(picture);
         try {
-            rentalDTO.setPicturePath(picturePath);
+            rentalDTO.setPicturePath(storageService.store(picture));
             rentalService.createRental(rentalDTO);
             return ResponseEntity.ok("{\"message\":\"Rental created!\"}");
         } catch (Exception e) {
@@ -103,12 +95,9 @@ public class RentalController {
         if (existingRental == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
         if (picture != null && !picture.isEmpty()) {
-            String picturePath = storageService.store(picture);
-            rentalDTO.setPicturePath(picturePath);
+            rentalDTO.setPicturePath(storageService.store(picture));
         }
-
         try {
             rentalService.updateRental(existingRental, rentalDTO);
             return ResponseEntity.ok("{\"message\":\"Rental updated!\"}");

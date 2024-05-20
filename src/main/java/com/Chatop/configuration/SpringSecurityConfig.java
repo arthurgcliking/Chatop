@@ -13,9 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.Chatop.configuration.JWTEntryPoint;
-import com.Chatop.services.JWTUserDetailsService;
-import com.Chatop.configuration.JWTRequestFilter;
+import com.Chatop.configuration.JWT.JWTEntryPoint;
+import com.Chatop.configuration.JWT.JWTRequestFilter;
+import com.Chatop.services.JWTUserService;
 
 // This class is used to configure Spring Security for the application
 @Configuration
@@ -25,18 +25,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // These services are used to handle JWT tokens, user details, and password encoding
     @Autowired
-    private JWTEntryPoint jwtAuthenticationEntryPoint;
+    private JWTEntryPoint jwtEntryPoint;
     @Autowired
-    private JWTUserDetailsService jwtUserDetailsService;
+    private JWTUserService jwtUserService;
     @Autowired
     private JWTRequestFilter jwtRequestFilter;
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
-    // This method configures the AuthenticationManagerBuilder to use the JWTUserDetailsService and the PasswordEncoder
+    // This method configures the AuthenticationManagerBuilder to use the JWTUserService and the PasswordEncoder
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(bcryptEncoder);
+        auth.userDetailsService(jwtUserService).passwordEncoder(bcryptEncoder);
     }
 
     // This method creates a bean for the AuthenticationManager
@@ -55,7 +55,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/images/**").permitAll()
             .antMatchers("/v3/api-docs","/api/v3/**", "/v2/api-docs","/api/v2/**", "/configuration/**", "/v3/swagger-ui/**", "/v2/swagger-ui/**", "/api/swagger-ui/**", "/swagger*/**", "swagger-io/**", "/webjars/**", "/swagger-ui/**").permitAll()
             .anyRequest().authenticated().and()
-            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+            .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

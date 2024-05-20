@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JWTUserDetailsService implements UserDetailsService {
+public class JWTUserService implements UserDetailsService {
     // Injects UserRepository into the service
     @Autowired
     private UserRepository userRepository;
@@ -20,21 +20,21 @@ public class JWTUserDetailsService implements UserDetailsService {
 
     // Overrides the loadUserByUsername method from the UserDetailsService interface
     @Override
-    public CustomUserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public HandleUser loadUserByUsername(String userName) throws UsernameNotFoundException {
         // Calls the loadUserByUserEmail method to find the user by email
         return loadUserByUserEmail(userName);
     }
 
     // Finds a user by their email address
-    public CustomUserDetails loadUserByUserEmail(String userEmail) throws UsernameNotFoundException {
+    public HandleUser loadUserByUserEmail(String userEmail) throws UsernameNotFoundException {
         // Retrieves the user from the database using the UserRepository
         UserDAO user = userRepository.findByEmail(userEmail);
         // If the user is not found, throws a UsernameNotFoundException
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + userEmail);
         }
-        // Returns a CustomUserDetails object with the user's details
-        return new CustomUserDetails(user);
+        // Returns a HandleUser object with the user's details
+        return new HandleUser(user);
     }
 
     // Saves a new user to the database

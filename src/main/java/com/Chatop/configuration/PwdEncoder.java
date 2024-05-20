@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 // This class is used to configure the PasswordEncoder bean for Spring Security
 @Configuration
-public class PasswordEncoderConfig {
+public class PwdEncoder {
 
     // This method creates a new instance of BCryptPasswordEncoder and returns it as a PasswordEncoder bean
     // BCryptPasswordEncoder is a secure password hashing algorithm that's recommended by Spring Security

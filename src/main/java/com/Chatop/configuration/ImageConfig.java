@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 // The @ConfigurationProperties annotation is used to map properties from application.properties or application.yml file
 // The prefix "images" indicates that the properties for this class are prefixed with "images" in the configuration file
 @ConfigurationProperties(prefix = "images")
-public class ImageProperties {
+public class ImageConfig {
 
     // This field represents the directory where images are stored
     private String imageDir;
